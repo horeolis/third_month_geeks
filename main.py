@@ -2,44 +2,57 @@
 import flet as ft
 import datetime 
 
-
 def main_page(page: ft.Page):
     page.theme_mode = "dark"
-    page.title = "Угар"
-    name = "Эламан"
-    
-    # print(name_flet)
-    # print(name_flet.value)
-    # print(name_flet.color)
+    page.title = "Приветствие"
+        
+    text_hello = ft.Text(value= None, color = None)
+    text_field = ft.TextField()
+    warn_text = ft.Text(value = None)
 
-    # name_input = ft.TextField(max_length= 10)
-    # text_button = ft.TextButton('text_button')
-    # icon_button = ft.IconButton(icon = ft.Icons.TELEGRAM)
     
-    text_hello = ft.Text(value='Hello World', color=ft.Colors.RED)
 
     def button_click(e):
-        if name_input.value:
-            name = name_input.value.strip()
-            text_hello.value = f'Hello {name}'
-            name_input.value = None
-            text_hello.color = None
-        else:
-            text_hello.value = "Ошибка"
-            text_hello.color = ft.Colors.RED
+        
+        hello_date = datetime.datetime.now()
+        formatted_date = hello_date.strftime("%Y:%m:%d - %H:%M:%S")
 
-    name_input = ft.TextField(on_submit=button_click)
-    button_elevate = ft.ElevatedButton('send', icon = ft.Icons.SEND, on_click = button_click)
+        if not text_field.value:
+            text_hello.value = "Впишите свое имя ниже!"
+            return
 
+        text_hello.value = f"{formatted_date} - Привет, {text_field.value}!".upper()
+        
+
+
+        
+
+    hello_button = ft.IconButton(icon = ft.Icons.EMOJI_EMOTIONS, on_click=button_click)
 
     page.add(
-
-        text_hello,
-        name_input,
-        button_elevate
-            
-
+        ft.Column(
+            [
+                text_hello,
+                ft.Row(
+                    [
+                        text_field,
+                        hello_button,
+                        warn_text,
+                    ],
+                    alignment="center"
+                ),
+            ],
+            horizontal_alignment="center"
+        )
     )
+
+
+
+    # - Добавить время когда ввели имя. В формате - год:месяц:день - час:минута:секунда
+    # - Выводить сообщение: “2025:12:02 - 18:23:22 - Привет, {имя}! ”
+  
+        
+
 
 ft.run(main_page)
 
